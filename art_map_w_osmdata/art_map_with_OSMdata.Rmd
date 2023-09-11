@@ -14,7 +14,7 @@ I bet you have seen tons of beautiful (well, not always) Map art on the web If n
 
 ![credit: <https://www.mapshop.com/>](https://www.mapshop.com/wp-content/uploads/2017/10/ht_aus_1.jpg){width=50% height=50% target="_blank"}
 
-Looks cool, right? However after finding more and more sites offering similarly looking maps I was not inclined to spned my money on any of them. This gave me an idea: even though those maps may bear low artistic merit they could still be a great source of learning. So, equipped with basic R skills, some experience with vector graphics and faint memories of what longitude and latitude are, I approached this project.
+Looks cool, right? However after finding more and more sites offering similarly looking maps I was not inclined to spend my money on any of them. This gave me an idea: even though those maps may bear low artistic merit they could still be a great source of learning. So, equipped with basic R skills, some experience with vector graphics and faint memories of what longitude and latitude are, I approached this project.
 
 ## Where should I start
 
@@ -43,14 +43,16 @@ library(ggplot2)
 
 ```
 
+
 >DISCLAIMER:
-Initially I approached this project with very low knowledge of GIS and OSM in particular so I made many mistakes and poor design choices along the way. I explored new packages, explored the geodetic theory, explored limits of my patience and determination :) so treat this notebook as explorers' logbook. If you'd like to follow along and build a map for yourself, refer to streamlined version of my workflow published on [GitHub](){target="_blank"}
-Yes it is streamlined as (!SPOILER) I ended up building 6 maps for myself.
+Initially I approached this project with very low knowledge of GIS and OSM in particular so I made many mistakes and poor design choices along the way. I explored new packages, explored the geodetic theory, explored limits of my patience and determination :) so treat this notebook as explorers' logbook. If you'd like to follow along and build a map for yourself, refer to streamlined version of my workflow published on [GitHub](https://github.com/failedfast-failedoften/gis_playground/tree/main/art_map_w_osmdata/clean_workflow){target="_blank"}.
+
+Yes it is streamlined as I ended up building 6 maps for myself.
 
 
 ## Pull the data
 
-Let's look at `opq()` function - it wraps all query parameters into a single API call.
+Let's look at `opq()` function - it wraps all query parameters into a single API call to retrieve data from OpenStreetMap.org.
 
 
 ```{r}
@@ -64,7 +66,7 @@ In the above example bounding box is defined by the city's administrative bounda
 ```{r}
 vog$bbox
 ```
-![](./art_map_with_OSMdata_files/osm_screenshot.png){width=100%, height=100%}
+![](./art_map_with_OSMdata_files/osm_screenshot.PNG){width=100%, height=100%}
 
 
 `$prefix` and `$suffix` - provide output format and resource parameters as well as all required syntax to form a valid [Overpass query](https://wiki.openstreetmap.org/wiki/Overpass_API/Overpass_QL){target="_blank"}.
@@ -105,6 +107,7 @@ vog_water <- vog %>%
 ```
 
 the last line instructs query to treat output as [simple features objects](https://r-spatial.github.io/sf/articles/sf1.html){target="_blank"}
+
 ```{r}
 vog_water
 ```
@@ -162,6 +165,7 @@ ggplot() +
   theme_void()
  
 ```
+
 As you can see, there are plenty of water shapes missing from multipolygon layer. However it seems that polygon dataframe includes islands and islets in addition to water objects. 
 
 Let's take a peek at the `osm_polygons` dataframe once more, 
@@ -195,6 +199,7 @@ ggplot()+
   theme_void()
 
 ```
+
 Success! 
 
 ## Pull little more data
@@ -256,7 +261,9 @@ ggplot() +
 ```
 
 Volgograd suffered greatly during the Second World War and as a result there are hundreds of memorials, monuments and ruins in the city. The most famous of these is the giant statue called "The Motherland Calls."
+
 ![War memorial - The Motherland Calls](https://img.traveltriangle.com/blog/wp-content/uploads/2019/02/motherland-calls.jpg)
+
 I wanted to capture that on my map.
 
 ```{r}
@@ -379,8 +386,10 @@ midpoint_4326
 midpoint_2707
 ```
 
+
 Notice how coordinates transformed from lat/lon into meters.
 Function`st_buffer` creates a circle geometry from the set point with radius equal to `r`
+
 
 ```{r, message=FALSE}
 circle_mask_distorted <-st_buffer(midpoint_4326, dist = r)
@@ -405,6 +414,7 @@ vog_map+
            ylim = c(min_lat,max_lat),
          expand = FALSE)
 ```
+
 
 So, map is rendered from EPSG:4326, red circle is the buffer we created directly in 4326 CSR and blue one was transformed into 2707 and then projected back in 4326. 
 
@@ -523,7 +533,7 @@ showtext_auto()
    
     theme(plot.caption = element_text(family = "poiret", 
                                     color = key_color,
-                                    size=24,
+                                    size=24, # be sure to change the size before saving
                                     hjust=0.5),
           plot.margin = unit(c(0.5,0.5,0.5,0.5),"in"))
     
@@ -545,7 +555,7 @@ And we are done!
 
 Last minute I decided I wasn't happy with the colors so the end result looks much different, but it actually inspired me to make a map for all other cities I lived in.
 
-![]()
+![Final Result](./art_map_with_OSMdata_files/result.jpg)
 
 Thanks for reading!
 
