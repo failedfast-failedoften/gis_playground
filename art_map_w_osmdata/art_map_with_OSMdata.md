@@ -4,7 +4,7 @@ Evgeny Politov
 September 9, 2023
 
 I bet you have seen tons of beautiful (well, not always) Map art on the
-web, if not, I’ve got you covered:
+web If not, I’ve got you covered:
 
 <figure>
 <img
@@ -71,8 +71,7 @@ library(ggplot2)
 > href="https://github.com/failedfast-failedoften/gis_playground/tree/main/art_map_w_osmdata/clean_workflow"
 > target="_blank">GitHub</a>.
 
-Yes it is streamlined as I ended up building 6 maps for
-myself.
+Yes it is streamlined as I ended up building 6 maps for myself.
 
 ## Pull the data
 
@@ -651,7 +650,7 @@ vog_map_circle <- ggplot()+
   
   geom_sf(data = circle_mask,
           fill = background_fill,
-          color = NA)+
+          color = key_color)+
  
   #water
   geom_sf(data = water_masked,
@@ -673,14 +672,14 @@ vog_map_circle <- ggplot()+
   #roads
   geom_sf(data = pedestrian_masked,
           color= key_color,
-          linewidth = .4,
+          linewidth = .3,
           alpha = .3,
           )+
   
   geom_sf(data = minor_road_masked,
           color = key_color,
-          linewidth = .5,
-          alpha = .8,
+          linewidth = .4,
+          alpha = .7,
           )+
   
   geom_sf(data = main_roads_masked,

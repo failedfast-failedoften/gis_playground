@@ -461,7 +461,7 @@ vog_map_circle <- ggplot()+
   
   geom_sf(data = circle_mask,
           fill = background_fill,
-          color = NA)+
+          color = key_color)+
  
   #water
   geom_sf(data = water_masked,
@@ -483,14 +483,14 @@ vog_map_circle <- ggplot()+
   #roads
   geom_sf(data = pedestrian_masked,
           color= key_color,
-          linewidth = .4,
+          linewidth = .3,
           alpha = .3,
           )+
   
   geom_sf(data = minor_road_masked,
           color = key_color,
-          linewidth = .5,
-          alpha = .8,
+          linewidth = .4,
+          alpha = .7,
           )+
   
   geom_sf(data = main_roads_masked,
